@@ -80,7 +80,7 @@ Thasky> ⚡ [Inferindo - 21.4 tok/s] [RAM: 74%] [TEMP: 48°C]
 
 ```
 ## 📄 Licença
-Distribuído sob a licença MIT. Veja LICENSE para mais informações.
+Distribuído sob a licença GPL-3.0. Veja LICENSE para mais informações.
 ```
 
 ```
