@@ -1,0 +1,62 @@
+[package]
+name = "thasky"
+version = "0.1.0"
+edition = "2021"
+authors = ["Davi Ribeiro"]
+description = "⚡ Local AI framework optimized for resource-constrained hardware and mobile devices."
+homepage = "https://github.com/thasky-ai/thasky"
+readme = "README.md"
+keywords = ["llm", "cli", "ggml", "llama-cpp", "termux"]
+categories = ["command-line-utilities", "science::artificial-intelligence"]
+
+[dependencies]
+# CLI & Estética Cyberpunk
+clap = { version = "4.4", features = ["derive", "env"] }
+colored = "2.1"
+indicatif = "0.17"
+
+# Telemetria de Hardware & Monitoramento Térmico
+sysinfo = { version = "0.30", default-features = false, features = ["system", "cpu", "component"] }
+
+# Gerenciamento de Arquivos e Mapeamento de Memória (Lazy Loading)
+memmap2 = "0.9"
+walkdir = "2.4"
+
+# Concorrência e Async (I/O de Patches e Token Streaming)
+tokio = { version = "1.35", features = ["rt", "rt-multi-thread", "macros", "io-util", "fs"] }
+rayon = "1.8"
+
+# Serialização / Deserialização (Leitura de JSON, CSV, MD para Patches)
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+csv = "1.3"
+
+# Engine Matemática e Vetores de Baixo Custo (RAG Local)
+ndarray = "0.15"
+hf-tokenizers = { version = "0.13", optional = true } # Tokenizador fallback se necessário
+
+# Tratamento de Erros Robusto
+anyhow = "1.0"
+
+[dev-dependencies]
+# Benchmarks de performance de inferência
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bench]]
+name = "inference_bench"
+harness = false
+
+# ──────────────────────────────────────────────────────────────────────────────
+# PERFIS DE COMPILAÇÃO (A mágica da otimização extrema do Rust acontece aqui)
+# ──────────────────────────────────────────────────────────────────────────────
+
+[profile.release]
+opt-level = 3           # Otimização máxima de código
+lto = true              # Link-Time Optimization (une pacotes e reduz o binário final)
+codegen-units = 1       # Reduz paralelismo do compilador para gerar loops mais rápidos
+panic = "abort"         # Remove unwinding em pânico, diminuindo drasticamente o tamanho do binário
+strip = true            # Remove símbolos de debug e tabelas de texto (binário muito menor e mais rápido)
+
+[profile.dev]
+opt-level = 1           # Ativa otimizações básicas mesmo em debug para testar velocidade no Termux
+debug = true
