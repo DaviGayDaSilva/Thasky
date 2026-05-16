@@ -1,4 +1,3 @@
-```markdown
 # 🛠️ Thasky
 
 > Local AI. Optimized for reality.
